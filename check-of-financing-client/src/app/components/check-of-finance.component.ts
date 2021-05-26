@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {HttpClient} from "@angular/common/http";
@@ -8,7 +8,9 @@ export interface FinancingInfo {
   userId: string;
   financeObject: string;
   amount: number;
-  acceptanceDeadline?: Date;
+  /*
+    acceptanceDeadline?: Date;
+  */
   status: string;
 }
 
@@ -18,17 +20,30 @@ export interface FinancingInfo {
 })
 export class CheckOfFinanceComponent implements OnInit, OnDestroy {
 
-  displayedColumns: string[] = ['userId', 'financingObject', 'amount', 'caseNumber', 'acceptanceDeadline', 'status', 'actions'];
+  displayedColumns: string[] = ['userId', 'financingObject', 'amount', 'caseNumber', /*'acceptanceDeadline',*/ 'status', 'actions'];
   dataSource = new MatTableDataSource<FinancingInfo>();
   financingInfo: FinancingInfo[] = [];
   @ViewChild(MatSort) sort: MatSort = new MatSort();
   eventSource: any;
+  id: string = this.uuid_v4();
 
-  constructor(private readonly httpClient: HttpClient) {}
+  constructor(
+    private readonly httpClient: HttpClient,
+    private changeDetection: ChangeDetectorRef,
+  ) {
+  }
+
+
+  private uuid_v4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
 
   ngOnInit() {
     this.httpClient
-    .get<FinancingInfo[]>('api/financing')
+    .get<FinancingInfo[]>('http://localhost:8081/financing')
     .toPromise()
     .then(
       data => {
@@ -41,12 +56,12 @@ export class CheckOfFinanceComponent implements OnInit, OnDestroy {
   }
 
   setupEventSource() {
-    this.eventSource = new EventSource('new_notification');
+    this.eventSource = new EventSource('http://localhost:8081/financing/subscribe?id=' + this.id);
     this.eventSource.onopen = () => {
       console.log("connection opened")
     }
     this.eventSource.onmessage = (event: any) => {
-      this.updateFinancingObject(event.data);
+      this.updateFinancingObject(JSON.parse(event.data));
     }
     this.eventSource.onerror = (event: any) => {
       console.log(event);
@@ -57,7 +72,7 @@ export class CheckOfFinanceComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.eventSource) {
-      this.httpClient.get('unsub').subscribe(() =>
+      this.httpClient.get('http://localhost:8081/financing/unsub?id=' + this.id).subscribe(() =>
         this.eventSource.close()
       );
     }
@@ -85,8 +100,13 @@ export class CheckOfFinanceComponent implements OnInit, OnDestroy {
 
   updateFinancingObject(updatedObject: FinancingInfo) {
     let index = this.financingInfo.findIndex(item => item.financingId === updatedObject.financingId);
-    this.financingInfo[index] = updatedObject;
+    if (index !== -1) {
+      this.financingInfo[index] = updatedObject;
+    } else {
+      this.financingInfo.push(updatedObject);
+    }
     this.dataSource = new MatTableDataSource(this.financingInfo);
+    this.changeDetection.detectChanges();
   }
 
   applyFilter(event: Event) {
