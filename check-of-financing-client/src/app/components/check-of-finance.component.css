@@ -1,10 +1,14 @@
 .check-of-finance-wrapper {
-  width: 50%;
+  width: 70em;
   margin: auto;
 }
 
 table {
   width: 100%;
+}
+
+.mat-column-status {
+  font-weight: bold;
 }
 
 .filter {
@@ -16,5 +20,22 @@ table {
   display: flex;
   justify-content: space-between;
   max-width: 15em;
+}
+
+.actions-wrapper {
+  display: flex;
+}
+
+.actions-wrapper button {
+  margin-right: 1em;
+  color: #fff;
+}
+
+.confirm {
+  background-color: green;
+}
+
+.decline {
+  background-color: red;
 }
 
