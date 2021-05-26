@@ -6,13 +6,13 @@ import com.loanprocessinghackathonteam1.buildingblocks.abstractions.AbstractEven
 public class CheckOfFinancingOK extends AbstractEvent {
 
     private int financingAmount;
-    private Long financingId;
+    private String financeObject;
 
 
-    public CheckOfFinancingOK(String userId, int financingAmount, Long financingId) {
+    public CheckOfFinancingOK(String userId, int financingAmount, String financeObject) {
         super(userId, CheckOfFinancingOK.class.getSimpleName());
         this.financingAmount = financingAmount;
-        this.financingId = financingId;
+        this.financeObject = financeObject;
     }
 
     public CheckOfFinancingOK() {
@@ -28,12 +28,12 @@ public class CheckOfFinancingOK extends AbstractEvent {
         return this;
     }
 
-    public Long getFinancingId() {
-        return financingId;
+    public String getFinanceObject() {
+        return financeObject;
     }
 
-    public CheckOfFinancingOK setFinancingId(Long financingId) {
-        this.financingId = financingId;
+    public CheckOfFinancingOK setFinanceObject(String financeObject) {
+        this.financeObject = financeObject;
         return this;
     }
 
@@ -41,7 +41,7 @@ public class CheckOfFinancingOK extends AbstractEvent {
     public String toString() {
         return "CheckOfFinancingOK{" +
                 "financingAmount=" + financingAmount +
-                ", financingId=" + financingId +
+                ", financeObject=" + financeObject +
                 '}';
     }
 }

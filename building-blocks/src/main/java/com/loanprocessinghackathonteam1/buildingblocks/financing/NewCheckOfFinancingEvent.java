@@ -5,41 +5,40 @@ import com.loanprocessinghackathonteam1.buildingblocks.abstractions.AbstractEven
 
 public class NewCheckOfFinancingEvent extends AbstractEvent {
 
-    private String productType;
-    private Long financingId;
+    private String financeObject; //"0301-G20/B100"
+    private Long financingAmount;
 
     public NewCheckOfFinancingEvent() {
     }
 
-    public NewCheckOfFinancingEvent(String productType, String userId, Long financingId) {
+    public NewCheckOfFinancingEvent(String userId, String productType, Long financingId) {
         super(userId, NewCheckOfFinancingEvent.class.getName());
-        this.productType = productType;
-        this.financingId = financingId;
+        this.financeObject = productType;
+        this.financingAmount = financingId;
     }
 
-    public String getProductType() {
-        return productType;
+    public String getFinanceObject() {
+        return financeObject;
     }
 
-    public void setProductType(String productType) {
-        this.productType = productType;
+    public void setFinanceObject(String financeObject) {
+        this.financeObject = financeObject;
     }
 
-
-    public Long getFinancingId() {
-        return financingId;
+    public Long getFinancingAmount() {
+        return financingAmount;
     }
 
-    public NewCheckOfFinancingEvent setFinancingId(Long financingId) {
-        this.financingId = financingId;
+    public NewCheckOfFinancingEvent setFinancingAmount(Long financingAmount) {
+        this.financingAmount = financingAmount;
         return this;
     }
 
     @Override
     public String toString() {
         return "NewCheckOfFinancingEvent{" +
-                "productType='" + productType + '\'' +
-                ", financingId=" + financingId +
+                "financeObject='" + financeObject + '\'' +
+                ", financingAmount=" + financingAmount +
                 '}';
     }
 }
