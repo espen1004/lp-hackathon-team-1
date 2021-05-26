@@ -1,13 +1,13 @@
-package org.example.altinncheckserivce;
+package org.example.altinncheckservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AltinnCheckSerivceApplication {
+public class AltinnCheckServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AltinnCheckSerivceApplication.class, args);
+        SpringApplication.run(AltinnCheckServiceApplication.class, args);
     }
 
 }

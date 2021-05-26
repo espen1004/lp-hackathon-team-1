@@ -9,9 +9,9 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>org.example</groupId>
-  <artifactId>altinn-check-serivce</artifactId>
+  <artifactId>altinn-check-service</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>altinn-check-serivce</name>
+  <name>altinn-check-service</name>
   <description>Demo project for Spring Boot</description>
   <properties>
     <java.version>11</java.version>
