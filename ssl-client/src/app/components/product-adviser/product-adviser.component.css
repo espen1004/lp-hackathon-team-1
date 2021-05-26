@@ -1,0 +1,25 @@
+.product-adviser-wrapper {
+  width: 70em;
+  margin: auto;
+}
+
+.mat-button {
+  color: #fff;
+  background: #005fa3;
+  border-radius: .4rem;
+  border-style: solid;
+  border-width: .1rem;
+  border-color: #005fa3;
+}
+
+.header {
+  display: flex;
+}
+
+.product-container {
+  padding-top: 3em;
+}
+
+label {
+  font-weight: bold;
+}

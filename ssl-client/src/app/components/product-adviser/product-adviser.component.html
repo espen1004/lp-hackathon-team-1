@@ -1,0 +1,30 @@
+<div class="product-adviser-wrapper">
+  <h1>Boliglån</h1>
+  <div>
+    <h2>Vi kan tilby deg følgende boliglån</h2>
+    <label>Ola Nordmann</label>
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let product of products">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <img [src]="product.image"> {{product.name}}
+          </mat-panel-title>
+          <mat-panel-description>
+            <div>
+              Fra {{product.interestRate}}%
+            </div>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        {{product.description}}
+          <mat-action-row>
+            <button mat-button (click)="select(product)">Velg</button>
+          </mat-action-row>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+
+  </div>
+  <div class="form-actions">
+    <button mat-button (click)="next()">Neste</button>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="your-loan-applications-wrapper">
+  <h1>Dine lånesøknader</h1>
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let preapproval of preapprovals">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <img [src]="'assets/flexiloan.svg'"> {{preapproval.name}}
+        </mat-panel-title>
+        <mat-panel-description>
+          <div class="{{preapproval.status}} status-field">
+            {{mapStatusToText(preapproval.status)}}
+          </div>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div>
+        <span>Innvilget: {{preapproval.date.toLocaleString()}}</span>
+        <br>
+        <span>Lånetaker: {{preapproval.applicant}}</span>
+      </div>
+
+      <div *ngIf="preapproval.status === 'DOCUMENT_FOR_DOWNLOAD'">
+        <mat-action-row>
+          <button mat-button (click)="convertToLoan(preapproval)">Click me</button>
+        </mat-action-row>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

@@ -1,0 +1,29 @@
+<div class="collateral-wrapper">
+  <h1>Boligen vi har kjøpt</h1>
+  <div>
+    <h2>Sikkerhet i bolig</h2>
+    <span>
+      Dere må stille med sikkerhet i boligen dere har kjøpt som en forsikring til oss. Helt enkelt betyr dette at vi kan tilbakekreve penger i form av
+      boligen hvis lånet ikke blir nedbetalt slik låneavtalen tilsier
+    </span>
+  </div>
+  <div><h2>Hent kjøpekontrakt fra megler</h2>
+    <span>
+      Vi kan hente kjøpekontrakt automatisk fra noen av landets meglere! Finnes ikke megler i listen under må informasjon om den nye boligen din
+      registreres manuelt
+    </span>
+    <div class="dropdown-wrapper">
+      <mat-form-field appearance="fill">
+        <mat-select>
+          <mat-option *ngFor="let broker of realEstateBrokers" [value]="broker">
+            {{broker}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <button mat-button (click)="fetchContract()">Hent kjøpskontrakt</button>
+  </div>
+  <div class="form-actions">
+    <button mat-button (click)="next()">Neste</button>
+  </div>
+</div>
