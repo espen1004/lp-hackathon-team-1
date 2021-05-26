@@ -1,0 +1,20 @@
+.check-of-finance-wrapper {
+  width: 50%;
+  margin: auto;
+}
+
+table {
+  width: 100%;
+}
+
+.filter {
+  font-size: 20px;
+  width: 100%;
+}
+
+.customer-wrapper {
+  display: flex;
+  justify-content: space-between;
+  max-width: 15em;
+}
+
