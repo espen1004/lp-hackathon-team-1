@@ -2,6 +2,7 @@ import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angul
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {HttpClient} from "@angular/common/http";
+import { v4 as uuid } from 'uuid';
 
 export interface FinancingInfo {
   financingId: number;
@@ -20,12 +21,12 @@ export interface FinancingInfo {
 })
 export class CheckOfFinanceComponent implements OnInit, OnDestroy {
 
-  displayedColumns: string[] = ['userId', 'financingObject', 'amount', 'caseNumber', /*'acceptanceDeadline',*/ 'status', 'actions'];
+  displayedColumns: string[] = ['userId', 'financeObject', 'amount', 'caseNumber', /*'acceptanceDeadline',*/ 'status', 'actions'];
   dataSource = new MatTableDataSource<FinancingInfo>();
   financingInfo: FinancingInfo[] = [];
   @ViewChild(MatSort) sort: MatSort = new MatSort();
   eventSource: any;
-  id: string = this.uuid_v4();
+  id: string = uuid();
 
   constructor(
     private readonly httpClient: HttpClient,
@@ -33,17 +34,9 @@ export class CheckOfFinanceComponent implements OnInit, OnDestroy {
   ) {
   }
 
-
-  private uuid_v4() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
-  }
-
   ngOnInit() {
     this.httpClient
-    .get<FinancingInfo[]>('http://localhost:8081/financing')
+    .get<FinancingInfo[]>('financing')
     .toPromise()
     .then(
       data => {
@@ -56,7 +49,7 @@ export class CheckOfFinanceComponent implements OnInit, OnDestroy {
   }
 
   setupEventSource() {
-    this.eventSource = new EventSource('http://localhost:8081/financing/subscribe?id=' + this.id);
+    this.eventSource = new EventSource('financing/subscribe?id=' + this.id);
     this.eventSource.onopen = () => {
       console.log("connection opened")
     }
@@ -66,13 +59,13 @@ export class CheckOfFinanceComponent implements OnInit, OnDestroy {
     this.eventSource.onerror = (event: any) => {
       console.log(event);
       this.eventSource.close();
-      //this.setupEventSource();
+      this.setupEventSource();
     }
   }
 
   ngOnDestroy(): void {
     if (this.eventSource) {
-      this.httpClient.get('http://localhost:8081/financing/unsub?id=' + this.id).subscribe(() =>
+      this.httpClient.get('financing/unsub?id=' + this.id).subscribe(() =>
         this.eventSource.close()
       );
     }
@@ -88,7 +81,7 @@ export class CheckOfFinanceComponent implements OnInit, OnDestroy {
 
   updateFinancing(element: FinancingInfo, newStatus: string) {
     this.httpClient
-    .put<any>('api/financing/' + element.financingId, {status: newStatus})
+    .put<any>('financing/' + element.financingId, {status: newStatus})
     .toPromise()
     .then(
       () => {
@@ -106,6 +99,7 @@ export class CheckOfFinanceComponent implements OnInit, OnDestroy {
       this.financingInfo.push(updatedObject);
     }
     this.dataSource = new MatTableDataSource(this.financingInfo);
+    this.dataSource.sort = this.sort;
     this.changeDetection.detectChanges();
   }
 
@@ -118,7 +112,7 @@ export class CheckOfFinanceComponent implements OnInit, OnDestroy {
     switch (status) {
       case 'BID_WON':
         return 'Bud vunnet';
-      case 'MANUEL_CONTROL':
+      case 'MANUAL_CONTROL':
         return 'Avventer handling';
       case 'APPROVED':
         return 'Godkjent';

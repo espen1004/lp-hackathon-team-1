@@ -16,7 +16,7 @@ exports.setup = function (router) {
       financingObject: 'G150/B564/Oslo',
       amount: 3500000,
       acceptanceDeadline: new Date(),
-      status: 'MANUEL_CONTROL'
+      status: 'MANUAL_CONTROL '
     }]
     res.status(200).json(response);
   });
