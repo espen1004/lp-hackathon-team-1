@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import com.example.checkoffinancingservice.kafka.MessageProducer;
@@ -16,11 +17,14 @@ import com.loanprocessinghackathonteam1.buildingblocks.financing.NewCheckOfFinan
 public class FinancingServiceImpl implements FinancingService{
     private final MessageProducer messageProducer;
     private final FinancingRepository financingRepository;
+    private final ApplicationEventPublisher eventPublisher;
+
 
     @Autowired
-    public FinancingServiceImpl(MessageProducer messageProducer, FinancingRepository financingRepository) {
+    public FinancingServiceImpl(MessageProducer messageProducer, FinancingRepository financingRepository, ApplicationEventPublisher eventPublisher) {
         this.messageProducer = messageProducer;
         this.financingRepository = financingRepository;
+        this.eventPublisher = eventPublisher;
     }
 
     @Override

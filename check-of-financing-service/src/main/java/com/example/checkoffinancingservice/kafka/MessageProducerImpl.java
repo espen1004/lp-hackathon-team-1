@@ -20,7 +20,7 @@ public class MessageProducerImpl implements MessageProducer {
     private String topicName;
     private static final String  EVENT_NAME = "event_name";
 
-    public void publishEvent(AbstractEvent event) {
+    public void publishEventToKafka(AbstractEvent event) {
 
         Message<AbstractEvent> message = MessageBuilder
                 .withPayload(event)

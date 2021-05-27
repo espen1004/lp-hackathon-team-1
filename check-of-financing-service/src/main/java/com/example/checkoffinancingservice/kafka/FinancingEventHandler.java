@@ -1,5 +1,6 @@
 package com.example.checkoffinancingservice.kafka;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -15,9 +16,15 @@ import com.loanprocessinghackathonteam1.buildingblocks.financing.NewCheckOfFinan
 @KafkaListener(topics = "${financing.topic.name}")
 public class FinancingEventHandler {
 
+    private final FinancingService financingService;
+
+    @Autowired
+    public FinancingEventHandler(FinancingService financingService) {
+        this.financingService = financingService;
+    }
     @KafkaHandler
     public void handleNewCheckOfFinancingEvent(@Payload NewCheckOfFinancingEvent event) {
-        System.out.println(event);
+        financingService.handleNewCheckOfFinancingEvent(event);
     }
 
     @KafkaHandler(isDefault = true)
