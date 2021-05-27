@@ -54,7 +54,9 @@ export class CheckOfFinanceComponent implements OnInit, OnDestroy {
       console.log("connection opened")
     }
     this.eventSource.onmessage = (event: any) => {
-      this.updateFinancingObject(JSON.parse(event.data));
+      if (!event.data.includes('Connected')) {
+        this.updateFinancingObject(JSON.parse(event.data));
+      }
     }
     this.eventSource.onerror = (event: any) => {
       console.log(event);
@@ -81,7 +83,7 @@ export class CheckOfFinanceComponent implements OnInit, OnDestroy {
 
   updateFinancing(element: FinancingInfo, newStatus: string) {
     this.httpClient
-    .put<any>('financing/' + element.financingId, {status: newStatus})
+    .put<any>('financing/' + element.financingId + '/decide', {decision: newStatus})
     .toPromise()
     .then(
       () => {
