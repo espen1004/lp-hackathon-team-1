@@ -29,6 +29,6 @@ public class FinancingEventHandler {
 
     @KafkaHandler(isDefault = true)
     public void ignoreEvent(@Payload AbstractEvent event) {
-        System.out.println("Ignored");
+        System.out.println("Ignored " + event.getEventName());
     }
 }
