@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.loanprocessinghackathonteam1.buildingblocks.financing.CheckOfFinancingNotOK;
 import com.loanprocessinghackathonteam1.buildingblocks.financing.CheckOfFinancingOK;
+import com.loanprocessinghackathonteam1.buildingblocks.financing.NewCheckOfFinancingEvent;
 
 @Component
 @KafkaListener(topics = "${financing.topic.name}")
@@ -21,4 +22,10 @@ public class FinancingEventHandler {
     public void handleCheckOfFinancingNotOKEvent(@Payload CheckOfFinancingNotOK event) {
         System.out.println(event);
     }
+
+    @KafkaHandler
+    public void handleNewCheckOfFinancingEvent(@Payload NewCheckOfFinancingEvent event) {
+        System.out.println(event);
+    }
+
 }
