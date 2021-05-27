@@ -6,10 +6,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -61,6 +65,11 @@ public class FinancingResource {
         }
     }
 
+    @PutMapping("{financingId}/decide")
+    public void decide(@PathVariable long financingId, DecisionRequest decision){
+        this.financingService.updateFinancing(financingId, decision.getDecision());
+    }
+
     @EventListener
     public void onNewFinancingCheck(Financing financing) {
         Set<String> deadEmitters = new HashSet<>();
@@ -72,5 +81,23 @@ public class FinancingResource {
             }
         });
         deadEmitters.forEach(emitters::remove);
+    }
+}
+
+class DecisionRequest {
+
+    private String decision;
+
+
+    public DecisionRequest(String decision) {
+        this.decision = decision;
+    }
+
+    public String getDecision() {
+        return decision;
+    }
+
+    public void setDecision(String decision) {
+        this.decision = decision;
     }
 }

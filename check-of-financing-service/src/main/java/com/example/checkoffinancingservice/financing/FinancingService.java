@@ -8,5 +8,7 @@ public interface FinancingService {
 
     List<Financing> getAll();
 
+    void updateFinancing(Long id, String decision);
+
     void handleNewCheckOfFinancingEvent(NewCheckOfFinancingEvent event);
 }
